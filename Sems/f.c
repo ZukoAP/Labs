@@ -3,7 +3,7 @@
 #include <time.h>
 
 int* generateArray(int size){
-    int* arr = (int*) malloc(1 * size);
+    int* arr = (int*) malloc(sizeof(int) * size);
     srand(time(0));
     for( int i = 0 ; i < size ; i++ ) {
         arr[i] = rand() % 10;
@@ -31,7 +31,8 @@ int* delete(int* arr, int* size,int div){
         pBad+= 1;
     }
     *size = k;
-    arr = realloc(arr,k* sizeof(int));
+    printf("size: %d \n", *size);
+    arr = (int*) realloc(arr,k * sizeof(int));
     return arr;
 }
 
@@ -43,6 +44,7 @@ int main() {
     puts("Initial array");
     printArray(array, size);
     int div;
+    printf("\nSet divider\n");
     scanf("%i",&div);
     delete(array,&size,div);
     printArray(array, size);
