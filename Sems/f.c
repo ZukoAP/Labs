@@ -23,7 +23,7 @@ int* delete(int* arr, int* size,int div){
     int* pNice = arr;
     int k=0;
     for (int i = 0; i < *size; ++i) {
-        if ((arr[i]%div) == 0){
+        if ((arr[i]%div) != 0){
             *(pNice)=*pBad;
             pNice+=1;
             k+=1;
