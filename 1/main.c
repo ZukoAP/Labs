@@ -52,6 +52,61 @@ struct vector *addVect(struct vector *vect1, struct vector *vect2) {
     return resVect;
 }
 
+void map(void *(*func)(void *), struct vector *vect) {
+    for (int i = 0; i < vect->count; i++) {
+        void *p = vect->value + i * (vect->elementSize);
+        memcpy(p, (*func)(p), vect->elementSize);
+    }
+}
+
+void *func1(void *val) {
+    void *p = malloc(sizeof(float));
+    *(float *) p = (*(float *) val * *(float *) val);
+    return p;
+}
+
+void *func2(void *val) {
+    void *p = malloc(sizeof(float));
+    *(float *) p = *(float *) val + 1;
+    return p;
+}
+
+void *func3(void *val) {
+    void *p = malloc(sizeof(float));
+    *(float *) p = *(float *) val / 2;
+    return p;
+}
+
+/*void map(struct vector* vect){
+    printf("What do you want to do with vector coordinates\n 1: square 2: +1 3: /2\n");
+    int choice;
+    scanf("%i",&choice);
+    switch ( choice) {
+        case 1:
+            for (int i = 0; i < vect -> count; i++){
+                float p = *(float *) getValue(vect, i) **(float *) getValue(vect, i);
+                setValue(vect, i, &p);
+            }
+            break;
+        case 2:
+            for (int i = 0; i < vect -> count; i++){
+                float p = *(float *) getValue(vect, i) +1;
+                setValue(vect, i, &p);
+            }
+            break;
+            case 3:
+            for (int i = 0; i < vect -> count; i++){
+                float p = *(float *) getValue(vect, i) /2;
+                setValue(vect, i, &p);
+            }
+            break;
+    }
+    printf("Mapping result\n");
+    for (int i = 0; i < vect->count; i++) {
+        printf("%.2f ", *(float *) getValue(vect, i));
+    }
+}*/
+
 void dotProd(struct vector *vect1, struct vector *vect2) {
     int dSize = vect1->count;
     float res = 0;
@@ -96,6 +151,27 @@ int main() {
         printf("Calculating dot product\n");
         dotProd(vect, dif);
     }
+    printf("\nmapping\n");
+
+    printf("What do you want to do with vector coordinates\n 1: square 2: +1 3: /2\n");
+    int choice;
+    scanf("%i", &choice);
+    switch (choice) {
+        case 1:
+            map(func1, vect);
+            break;
+        case 2:
+            map(func2, vect);
+            break;
+        case 3:
+            map(func3, vect);
+            break;
+    }
+    printf("Mapping result\n");
+    for (int i = 0; i < vect->count; i++) {
+        printf("%.2f ", *(float *) getValue(vect, i));
+    }
+
 
     printf("\nAdding\n");
     vect = addVect(vect, dif);
@@ -103,5 +179,7 @@ int main() {
     for (int i = 0; i < dimSize; i++) {
         printf("%.2f ", *(float *) getValue(vect, i));
     }
+    free(vect);
+    free(dif);
     return 0;
 }
