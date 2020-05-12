@@ -90,7 +90,7 @@ int height(Tree<T> *node) {
 template<typename T>
 void BFS(Tree<T>* root)
 {
-    Queue<Tree<T>*> q("array");
+    Queue<Tree<T>*> q(new ArraySeq<T>);
     if (root) {
         q.push(root);
         std::cout << root->data << " ";

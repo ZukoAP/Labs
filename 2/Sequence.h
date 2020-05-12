@@ -11,6 +11,8 @@ public:
 
     virtual int length() = 0;
 
+    virtual const std::type_info& getType() = 0;
+
     virtual void append(T) = 0;
 
     virtual void prepend(T) = 0;

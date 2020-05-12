@@ -10,8 +10,7 @@
 int main() {
 
 
-/*
-    LinkList<int> a;
+  /*  LinkList<int> a;
     for (int i = 0; i < 7; ++i) {
         a.prepend(i);
     }
@@ -22,12 +21,11 @@ int main() {
     std::cout << a << std::endl;
     a.concat(&b);
     b.pop(2);
-    b[1] = 50;
-*/
+    b[1] = 50;*/
 
 
 
-/*    DynArray<LinkList<std::string>> a;
+    /*DynArray<LinkList<std::string>> a;
     LinkList<std::string> b;
     for (int i = 0; i < 7; ++i) {
         b.append(std::to_string(i)+"me");
@@ -42,8 +40,8 @@ int main() {
     std::cout << a << std::endl;*/
 
 
-/*    Queue<int> a("list");
-    Queue<int> g("array");
+/*    Queue<int> a(new ListSeq<int>);
+    Queue<int> g(new ArraySeq<int>);
     for (int i = 10; i < 16; ++i) {
         g.push(i);
     }
@@ -80,11 +78,11 @@ int main() {
     std::cout << d << std::endl;
     std::cout << f << std::endl;
     std::cout << g << std::endl;
-    std::cout << "h: " <<h << std::endl;
+    std::cout << "h: " <<h << std::endl;*/
 
-//    std::cout << (typeid(a)== typeid(Queue<int>)) << std::endl;*/
+//    std::cout << (typeid(a)== typeid(Queue<int>)) << std::endl;
 
-/*SLinkList<int> a;
+    /*SLinkList<int> a;
 
     for (int i = 0; i < 7; ++i) {
         a.append(i);
@@ -92,7 +90,7 @@ int main() {
     a.reverse();
     std::cout << a << std::endl;*/
 
-/*    Tree<int> a(50);
+    /*Tree<int> a(50);
 
     addNode(&a, 55);
     addNode(&a, 6);
@@ -107,6 +105,7 @@ int main() {
     levelOrderPrint(&a);
     std::cout<<std::endl;
     BFS(&a);*/
+
     queueTester();
     return 0;
 }

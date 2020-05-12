@@ -14,6 +14,8 @@ public:
 
     int length() override;
 
+     const std::type_info& getType() override;
+
     void append(T) override;
 
     void prepend(T) override;
@@ -93,6 +95,11 @@ void ArraySeq<T>::setElement(int index, T value) {
 template<typename T>
 void ArraySeq<T>::swap(int index1, int index2) {
     this->data.swap(index1, index2);
+}
+
+template<typename T>
+const std::type_info& ArraySeq<T>::getType() {
+    return typeid(this->data);
 }
 
 #endif

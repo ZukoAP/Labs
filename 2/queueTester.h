@@ -9,52 +9,22 @@
 using namespace std;
 
 template<typename T>
-void fillQueuesInt(Queue<T>* q1,Queue<T>* q2){
-    for (int i = 0; i < 5000; ++i) {
+void fillQueues(Queue<T>* q1,Queue<T>* q2){
+    srand(time(nullptr));
+    for (int i = 0; i < 50000; ++i) {
         q1->push(rand() % 10000);
     }
     for (int i = 0; i < q1->size(); ++i) {
         q2->push(q1->data->getElement(i));
     }
-
-}template<typename T>
-void fillQueuesLinkList(Queue<T>* queueArr,Queue<T>* queueList){
-    LinkList<int> a;
-    for (int i = 0; i < 2000; ++i) {
-        for (int j = 0; j < rand()%2000; ++j) {
-            a.append(rand()%5000);
-        }
-        queueArr->push(a);
-        while(a.getSize()!=0){
-            a.pop(0);
-        }
-    }
-    for (int i = 0; i < queueArr->size(); ++i) {
-        queueList->push(queueArr->data->getElement(i));
-    }
 }
-
-template <typename T, typename F>
-double Tester(Queue<T> queue,F func){
-    auto start = chrono::high_resolution_clock::now();
-    // unsync the I/O of C and C++.
-    ios_base::sync_with_stdio(false);
-    for (int i = 0; i < 1000; ++i) {
-        func(queue);
-    }
-    auto end = chrono::high_resolution_clock::now();
-    double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
-    return time_taken;
-}
-
-
 
 template <typename T>
 double swapTester(Queue<T> queue){
     auto start = chrono::high_resolution_clock::now();
     // unsync the I/O of C and C++.
     ios_base::sync_with_stdio(false);
-    for (int i = 0; i < 1000; ++i) {
+    for (int i = 0; i < 500000; ++i) {
         queue.swap(rand() % 5000, rand() % 5000);
     }
     auto end = chrono::high_resolution_clock::now();
@@ -67,7 +37,7 @@ double popTester(Queue<T> queue){
     auto start = chrono::high_resolution_clock::now();
     // unsync the I/O of C and C++.
     ios_base::sync_with_stdio(false);
-    for (int i = 0; i < 1000; ++i) {
+    for (int i = 0; i < 50000; ++i) {
         queue.pop();
     }
     auto end = chrono::high_resolution_clock::now();
@@ -77,12 +47,11 @@ double popTester(Queue<T> queue){
 
 template <typename T>
 double pushTester(Queue<T> queue){
-    LinkList<int> a;
     auto start = chrono::high_resolution_clock::now();
     // unsync the I/O of C and C++.
     ios_base::sync_with_stdio(false);
-    for (int i = 0; i < 1000; ++i) {
-        queue.push(rand()%10000);
+    for (int i = 0; i < 500000; ++i) {
+        queue.push(rand()%5000);
     }
     auto end = chrono::high_resolution_clock::now();
     double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
@@ -90,28 +59,19 @@ double pushTester(Queue<T> queue){
 }
 
 void queueTester(){
-    srand(time(nullptr));
-    Queue<LinkList<int>> queueArr("array");
-    Queue<LinkList<int>> queueList("list");
+    Queue<int> queueArr(new ArraySeq<int>);
+    Queue<int> queueList(new ListSeq<int>);
     ofstream file;
-    //fillQueuesInt(&queueArr,&queueList);
-    fillQueuesLinkList(&queueArr,&queueList);
-    file.open("fillTest.csv", ios::trunc);
-    //file<<"swap array,swap list,push array,push list,pop array,pop list"<<endl;
-    file<<"swap array,swap list,pop array,pop list"<<endl;
+    fillQueues(&queueArr,&queueList);
+    file.open("intTest3.csv", ios::app);
+//    file<<"swap array,swap list,append array,append list,pop array,pop list"<<endl;
     cout<<"Testing"<<endl;
-    for (int i = 0; i < 100; ++i) {
-        file<<fixed<<setprecision(0)<<Tester(queueArr,[](Queue<LinkList<int>> &q){
-            q.swap(rand() % 2000, rand() % 2000);
-        })<<","<<Tester(queueList,[](Queue<LinkList<int>> &q){
-            q.swap(rand() % 2000, rand() % 2000);
-        })
-            //<<","<<pushTester(queueArr)<<","<<pushTester(queueList)
+        file<<fixed<<setprecision(0)<<swapTester(queueArr)<<","<<swapTester(queueList)
+            <<","<<pushTester(queueArr)<<","<<pushTester(queueList)
                 <<","<<popTester(queueArr)<<","<<popTester(queueList)
                     <<endl;
-    }
     cout<<"End of test"<<endl;
     file.close();
-    cout<<"queueArr: "<< queueArr<<endl;
-    cout<<"queueList: "<< queueList<<endl;
+//    cout<<"queueArr: "<< queueArr<<endl;
+//    cout<<"queueList: "<< queueList<<endl;
 }

@@ -2,7 +2,6 @@
 #define INC_2_QUEUE_H
 
 #include <typeinfo>
-
 #include "ListSequence.h"
 #include "Sequence.h"
 #include "ArraySequence.h"
@@ -12,11 +11,14 @@ class Queue {
 public:
     Sequence<T> *data;
 public:
-    Queue(std::string str) {
+/*    Queue(std::string str) {
         if (str == "list")
             this->data = new ListSeq<T>;
         else if (str == "array")
             this->data = new ArraySeq<T>;
+    }*/
+    Queue(Sequence<T>* seq) {
+        this->data = seq;
     }
 
     Queue(Queue<T> &);
@@ -94,7 +96,7 @@ std::ostream &operator<<(std::ostream &out, Queue<T1> &queue) {
 
 template<typename T>
 Queue<T>::Queue(Queue<T> &source) {
-    if (typeid(source.data) == typeid(ListSeq<T> *)) {
+    if (source.data->getType() == typeid(LinkList<T>)) {
         this->data = new ListSeq<T>;
     } else {
         this->data = new ArraySeq<T>;
@@ -119,13 +121,13 @@ Queue<T> Queue<T>::slice(int begin, int end) {
         throw MyException("Index is out of range. Check line: " + std::to_string(__LINE__) + " in " + __FILE__);
     else {
         if (typeid(this->data) == typeid(ListSeq<T> *)) {
-            Queue<T> buff("list");
+            Queue<T> buff(new ListSeq<T>);
             for (int i = begin; i <= end; ++i) {
                 buff.push(this->data->getElement(i));
             }
             return buff;
         } else {
-            Queue<T> buff("array");
+            Queue<T> buff(new ArraySeq<T>);
             for (int i = begin; i <= end; ++i) {
                 buff.push(this->data->getElement(i));
             }
@@ -146,7 +148,7 @@ template<typename T>
 template<typename F>
 Queue<T> Queue<T>::where(F func) {
     if (typeid(this->data) == typeid(ListSeq<T> *)) {
-        Queue<T> buff("list");
+        Queue<T> buff(new ListSeq<T>);
         for (int i = 0; i < this->size(); ++i) {
             if (func(this->data->getElement(i)) == 1) {
                 buff.push(this->data->getElement(i));
@@ -154,7 +156,7 @@ Queue<T> Queue<T>::where(F func) {
         }
         return buff;
     } else {
-        Queue<T> buff("list");
+        Queue<T> buff(new ListSeq<T>);
         for (int i = 0; i < this->size(); ++i) {
             if (func(this->data->getElement(i)) == 1) {
                 buff.push(this->data->getElement(i));
