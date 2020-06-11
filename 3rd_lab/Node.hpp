@@ -40,6 +40,11 @@ public:
 
     Node<T> *getPrev() { return this->prev; }
 
+    void setId(int nid) {
+        assert(id >= 0);
+        this->id = nid;
+    }
+
     void flushNext() { this->next = *(new dynamicArray<Node<T> *>()); }
 
     Node<T> &operator=(T val) { this->setValue(val); }
